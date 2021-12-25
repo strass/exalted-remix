@@ -12,7 +12,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function Charms() {
   const charm = useLoaderData<ReturnType<typeof loader>>();
-  console.log(charm);
   return (
     <div>
       <h1>{charm.label}</h1>

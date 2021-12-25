@@ -3,21 +3,34 @@ import { ICharm } from "types/Charms";
 import fs from "fs/promises";
 import { Parser } from "n3";
 import path from "path";
+import { SchemaOf, object, string } from "yup";
+
+class CharmValidationError extends Error {}
 
 export default class Charm {
   name;
   slug;
   description;
-  constructor(data: ICharm) {
-    this.name = data.name;
-    this.slug = data.slug;
-    this.description = data.description;
+  constructor(charm: ICharm) {
+    this.name = charm.name;
+    this.slug = charm.slug;
+    this.description = charm.description;
   }
 
   static async load() {
     const data = await fs.readFile(path.resolve("data/data.ttl"));
     const p = new Parser().parse(data.toString());
     return p;
+  }
+
+  static validationSchema: SchemaOf<ICharm> = object({
+    name: string().required(),
+    slug: string().required(),
+    description: string().required(),
+  });
+
+  static async validate(values: ICharm) {
+    return Charm.validationSchema.validate(values, { abortEarly: false });
   }
 
   get uri() {
@@ -35,10 +48,15 @@ export default class Charm {
   async save() {
     const charms = await Charm.load();
     if (charms.find((c) => c.subject.value === `#${this.slug}`)) {
-      console.warn('failed to create charm - slug already exists')
+      console.warn("failed to create charm - slug already exists");
       throw new Error("slug already exists");
     }
-    const promise = fs.appendFile(path.resolve("data/data.ttl"), this.ttl);
-    return promise;
+    return Charm.validate(this)
+      .then(() => {
+        return fs.appendFile(path.resolve("data/data.ttl"), this.ttl);
+      })
+      .catch((ex) => {
+        throw ex
+      });
   }
 }

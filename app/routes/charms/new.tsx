@@ -6,6 +6,9 @@ import {
   useActionData,
   useTransition,
 } from "remix";
+import { ICharm } from "types/Charms";
+import { ValidationError } from "yup";
+import { TextInput } from "~/components/inputs";
 import Charm from "../../factory/Charm";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -14,38 +17,70 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     const charm = new Charm(values);
     await charm.save();
-    console.log(charm);
     return redirect(`/charms/${charm.slug}`);
   } catch (error) {
-    if (error instanceof Error) {
-      return json({ error: error.message, values });
+    if (error instanceof ValidationError) {
+      function accumulateErrorsByPath(inner: ValidationError["inner"]) {
+        return inner.reduce((acc, err) => {
+          let newAcc = { ...acc };
+          if (err.inner) {
+            newAcc = { ...newAcc, ...accumulateErrorsByPath(err.inner) };
+          }
+          return {
+            ...newAcc,
+            [err.path as string]: err.message,
+          };
+        }, {} as Partial<Record<keyof ICharm, string>>);
+      }
+      return json({
+        message: error.message,
+        messages: error.errors,
+        errors: accumulateErrorsByPath(error.inner),
+        values: error.value,
+      });
+    } else {
+      return json({ message: error.message });
     }
   }
 };
 
 export default function NewCharm() {
   const transition = useTransition();
-  const actionData = useActionData();
-
+  const actionData =
+    useActionData<{ error: string; values: Record<keyof ICharm, string> }>();
+  console.log(actionData);
   return (
     <Form method="post">
       {actionData?.error && <p>{actionData.error}</p>}
       <fieldset disabled={transition.state === "submitting"}>
         <p>
           <label>
-            Name: <input name="name" type="text" />
+            Name:{" "}
+            <TextInput
+              name="name"
+              type="text"
+              defaultValue={actionData?.values?.name}
+            />
           </label>
         </p>
         <p>
           <label>
-            Slug: <input name="slug" type="text" />
+            Slug:{" "}
+            <TextInput
+              name="slug"
+              type="text"
+              defaultValue={actionData?.values?.slug}
+            />
           </label>
         </p>
         <p>
           <label>
             Description:
             <br />
-            <textarea name="description" />
+            <textarea
+              name="description"
+              defaultValue={actionData?.values?.description}
+            />
           </label>
         </p>
         <p>
