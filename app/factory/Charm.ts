@@ -16,9 +16,7 @@ export default class Charm {
 
   static async load() {
     const data = await fs.readFile(path.resolve("data/data.ttl"));
-    console.log(data.toString());
     const p = new Parser().parse(data.toString());
-    console.log(p);
     return p;
   }
 
@@ -28,17 +26,19 @@ export default class Charm {
 
   get ttl() {
     return `<#${this.slug}>
+  a exch:charm ;
   exch:label "${this.name}" ;
   exch:description """${this.description}""" .
 `;
   }
 
   async save() {
-    console.log(path.resolve("data/data.ttl"));
-    // TODO: check for duplicate fields
+    const charms = await Charm.load();
+    if (charms.find((c) => c.subject.value === `#${this.slug}`)) {
+      console.warn('failed to create charm - slug already exists')
+      throw new Error("slug already exists");
+    }
     const promise = fs.appendFile(path.resolve("data/data.ttl"), this.ttl);
-    await promise;
-    Charm.load();
     return promise;
   }
 }
