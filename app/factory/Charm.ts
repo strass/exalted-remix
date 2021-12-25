@@ -5,8 +5,6 @@ import { Parser } from "n3";
 import path from "path";
 import { SchemaOf, object, string } from "yup";
 
-class CharmValidationError extends Error {}
-
 export default class Charm {
   name;
   slug;

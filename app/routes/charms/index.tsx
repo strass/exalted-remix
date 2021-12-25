@@ -3,7 +3,7 @@ import Charm from "~/factory/Charm";
 
 export const loader = async () => {
   const charms = await Charm.load();
-  const groupedCharms = charms.reduce<Record<string, any>>((acc, quad) => {
+  const groupedCharms = charms.reduce ((acc, quad) => {
     const key = quad.subject.value.split("#")[1];
     acc[key] = {
       ...acc[key],
