@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
+    "dev": "DATA_FILE='data/data.ttl' remix dev",
     "postinstall": "remix setup node",
     "start": "remix-serve build"
   },
