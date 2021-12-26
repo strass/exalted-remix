@@ -1,5 +1,5 @@
 const namespaces = {
-    CHARM: 'https://essence.ooo/charm'
+    CHARM: 'http://www.szorny.essence.ooo/ontology#'
 } as const;
 
 export default namespaces;

@@ -1,4 +1,4 @@
-@prefix : <http://www.szoreny.essence.ooo/ontology#> .
+@prefix ex: <http://www.szoreny.essence.ooo/ontology#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -13,27 +13,27 @@
 #################################################################
 
 ###  http://www.szoreny.essence.ooo/ontology#charmProperty
-:charmProperty rdf:type owl:ObjectProperty ;
-               rdfs:domain :Charmlike .
+ex:charmProperty rdf:type owl:ObjectProperty ;
+                 rdfs:domain ex:charmlike .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#hasPrerequisite
-:hasPrerequisite rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf :charmProperty ;
-                 owl:inverseOf :isPrerequisite ;
-                 rdfs:range :Charmlike .
+ex:hasPrerequisite rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf ex:charmProperty ;
+                   owl:inverseOf ex:isPrerequisite ;
+                   rdfs:range ex:charmlike .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#isInCharmset
-:isInCharmset rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf :charmProperty ;
-              rdfs:range :Charmset .
+ex:isInCharmset rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ex:charmProperty ;
+                rdfs:range ex:Charmset .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#isPrerequisite
-:isPrerequisite rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf :charmProperty ;
-                rdfs:range :Charmlike .
+ex:isPrerequisite rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf ex:charmProperty ;
+                  rdfs:range ex:charmlike .
 
 
 #################################################################
@@ -41,114 +41,114 @@
 #################################################################
 
 ###  http://www.szoreny.essence.ooo/ontology#CharmlikeProperty
-:CharmlikeProperty rdf:type owl:DatatypeProperty ;
-                   rdfs:subPropertyOf owl:topDataProperty ;
-                   rdfs:domain :Charmlike .
+ex:CharmlikeProperty rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain ex:charmlike .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#abilityRequirement
-:abilityRequirement rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :CharmlikeProperty ;
-                    rdfs:range xsd:positiveInteger .
+ex:abilityRequirement rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf ex:CharmlikeProperty ;
+                      rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#aggravated_health_level_cost
-:aggravated_health_level_cost rdf:type owl:DatatypeProperty ;
-                              rdfs:subPropertyOf :health_level_cost ;
-                              rdfs:range xsd:integer .
+ex:aggravated_health_level_cost rdf:type owl:DatatypeProperty ;
+                                rdfs:subPropertyOf ex:health_level_cost ;
+                                rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#anima_cost
-:anima_cost rdf:type owl:DatatypeProperty ;
-            rdfs:subPropertyOf :cost ;
-            rdfs:range xsd:integer .
+ex:anima_cost rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf ex:cost ;
+              rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#bashing_health_level_cost
-:bashing_health_level_cost rdf:type owl:DatatypeProperty ;
-                           rdfs:subPropertyOf :health_level_cost ;
-                           rdfs:range xsd:integer .
+ex:bashing_health_level_cost rdf:type owl:DatatypeProperty ;
+                             rdfs:subPropertyOf ex:health_level_cost ;
+                             rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#cost
-:cost rdf:type owl:DatatypeProperty ;
-      rdfs:subPropertyOf :CharmlikeProperty ;
-      rdfs:domain :Charmlike ;
-      rdfs:range xsd:string .
+ex:cost rdf:type owl:DatatypeProperty ;
+        rdfs:subPropertyOf ex:CharmlikeProperty ;
+        rdfs:domain ex:charmlike ;
+        rdfs:range xsd:string .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#essenceRequirement
-:essenceRequirement rdf:type owl:DatatypeProperty ;
-                    rdfs:subPropertyOf :CharmlikeProperty ;
-                    rdfs:range xsd:positiveInteger .
+ex:essenceRequirement rdf:type owl:DatatypeProperty ;
+                      rdfs:subPropertyOf ex:CharmlikeProperty ;
+                      rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#health_level_cost
-:health_level_cost rdf:type owl:DatatypeProperty ;
-                   rdfs:subPropertyOf :cost ;
-                   rdfs:range xsd:string .
+ex:health_level_cost rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf ex:cost ;
+                     rdfs:range xsd:string .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#lethal_health_level_cost
-:lethal_health_level_cost rdf:type owl:DatatypeProperty ;
-                          rdfs:subPropertyOf :health_level_cost ;
-                          rdfs:range xsd:integer .
+ex:lethal_health_level_cost rdf:type owl:DatatypeProperty ;
+                            rdfs:subPropertyOf ex:health_level_cost ;
+                            rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#mote_cost
-:mote_cost rdf:type owl:DatatypeProperty ;
-           rdfs:subPropertyOf :cost ;
-           rdfs:range xsd:integer .
+ex:mote_cost rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf ex:cost ;
+             rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#willpower_cost
-:willpower_cost rdf:type owl:DatatypeProperty ;
-                rdfs:subPropertyOf :cost ;
-                rdfs:range xsd:positiveInteger .
+ex:willpower_cost rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf ex:cost ;
+                  rdfs:range xsd:positiveInteger .
 
 
 #################################################################
 #    Classes
 #################################################################
 
-###  http://www.szoreny.essence.ooo/ontology#Charmlike
-:Charmlike rdf:type owl:Class .
-
-
 ###  http://www.szoreny.essence.ooo/ontology#Charmset
-:Charmset rdf:type owl:Class .
+ex:Charmset rdf:type owl:Class .
+
+
+###  http://www.szoreny.essence.ooo/ontology#E3Charm
+ex:E3Charm rdf:type owl:Class ;
+           rdfs:subClassOf ex:E3Charmlike ;
+           owl:disjointWith ex:E3Evocation .
+
+
+###  http://www.szoreny.essence.ooo/ontology#E3Charmlike
+ex:E3Charmlike rdf:type owl:Class ;
+               rdfs:subClassOf ex:charmlike .
+
+
+###  http://www.szoreny.essence.ooo/ontology#E3Evocation
+ex:E3Evocation rdf:type owl:Class ;
+               rdfs:subClassOf ex:E3Charmlike .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#EssenceCharm
-:EssenceCharm rdf:type owl:Class ;
-              rdfs:subClassOf :EssenceCharmlike ;
-              owl:disjointWith :EssenceEvocation .
+ex:EssenceCharm rdf:type owl:Class ;
+                rdfs:subClassOf ex:EssenceCharmlike ;
+                owl:disjointWith ex:EssenceEvocation .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#EssenceCharmlike
-:EssenceCharmlike rdf:type owl:Class ;
-                  rdfs:subClassOf :Charmlike .
+ex:EssenceCharmlike rdf:type owl:Class ;
+                    rdfs:subClassOf ex:charmlike .
 
 
 ###  http://www.szoreny.essence.ooo/ontology#EssenceEvocation
-:EssenceEvocation rdf:type owl:Class ;
-                  rdfs:subClassOf :EssenceCharmlike .
+ex:EssenceEvocation rdf:type owl:Class ;
+                    rdfs:subClassOf ex:EssenceCharmlike .
 
 
-###  http://www.szoreny.essence.ooo/ontology#3eCharm
-<http://www.szoreny.essence.ooo/ontology#3eCharm> rdf:type owl:Class ;
-                                                  rdfs:subClassOf <http://www.szoreny.essence.ooo/ontology#3eCharmlike> ;
-                                                  owl:disjointWith <http://www.szoreny.essence.ooo/ontology#3eEvocation> .
-
-
-###  http://www.szoreny.essence.ooo/ontology#3eCharmlike
-<http://www.szoreny.essence.ooo/ontology#3eCharmlike> rdf:type owl:Class ;
-                                                      rdfs:subClassOf :Charmlike .
-
-
-###  http://www.szoreny.essence.ooo/ontology#3eEvocation
-<http://www.szoreny.essence.ooo/ontology#3eEvocation> rdf:type owl:Class ;
-                                                      rdfs:subClassOf <http://www.szoreny.essence.ooo/ontology#3eCharmlike> .
+###  http://www.szoreny.essence.ooo/ontology#charmlike
+# ex:charmlike rdf:type owl:Class .
 
 
 #################################################################
@@ -156,10 +156,10 @@
 #################################################################
 
 ###  http://www.szoreny.essence.ooo/ontology#graceful_crane_stance
-:graceful_crane_stance rdf:type owl:NamedIndividual ,
-                                <http://www.szoreny.essence.ooo/ontology#3eCharm> ;
-                       :cost "1m"^^xsd:string ;
-                       :mote_cost 1 .
+ex:graceful_crane_stance rdf:type owl:NamedIndividual ,
+                                  ex:E3Charm ;
+                         ex:cost "1m"^^xsd:string ;
+                         ex:mote_cost 1 .
 
 
 #################################################################
@@ -167,10 +167,10 @@
 #################################################################
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :EssenceCharmlike
-                <http://www.szoreny.essence.ooo/ontology#3eCharm>
-                <http://www.szoreny.essence.ooo/ontology#3eCharmlike>
-                <http://www.szoreny.essence.ooo/ontology#3eEvocation>
+  owl:members ( ex:E3Charm
+                ex:E3Charmlike
+                ex:E3Evocation
+                ex:EssenceCharmlike
               )
 ] .
 
