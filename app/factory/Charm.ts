@@ -1,8 +1,9 @@
 import fs from "fs/promises";
 import { Parser } from "n3";
 import path from "path";
-import { SchemaOf, object, string, mixed, number } from "yup";
+import { SchemaOf, object, string, number } from "yup";
 import * as n3 from "n3";
+import { N3Service } from "~/services/n3";
 
 export interface ICharm {
   name: string;
@@ -11,7 +12,7 @@ export interface ICharm {
   type: string;
   cost: string;
   // TODO: would this be useful to store separately?
-  keyword: string[];
+  // keyword: string[];
   keywords: string;
   charmPrerequisites: string;
   abilityMin: number;
@@ -56,20 +57,34 @@ export default class Charm {
   }
 
   static validationSchema: SchemaOf<ICharm> = object({
-    name: string().required(),
-    slug: string().required(),
-    description: string().required(),
-    type: string().required(),
-    cost: string().required(),
-    keywords: string().required(),
-    charmPrerequisites: string().required(),
-    abilityMin: number().integer().required(),
-    essenceMin: number().integer().required(),
-    duration: string().required(),
+    name: string().label("Name").required(),
+    slug: string()
+      .label("Slug")
+      .required()
+      .test("unique slug", "Slug already taken", (value, context) => {
+        return (context?.options?.context?.slugs ?? []).includes(value)
+          ? false
+          : true;
+      }),
+    type: string().label("Type").required(),
+    cost: string().label("Cost").required(),
+    // keyword: string().label("").required(),
+    keywords: string().label("Keywords").required(),
+    charmPrerequisites: string().label("Prerequisite Charms").required(),
+    abilityMin: number().label("Ability Minimum").integer().required(),
+    essenceMin: number().label("Essence Minimum").integer().required(),
+    duration: string().label("Duration").required(),
+    description: string()
+      .label("Description")
+      .meta({ type: "textarea" })
+      .required(),
   });
 
-  static async validate(values: ICharm) {
-    return Charm.validationSchema.validate(values, { abortEarly: false });
+  static async validate(values: ICharm, slugs: string[]) {
+    return Charm.validationSchema.validate(values, {
+      abortEarly: false,
+      context: { slugs },
+    });
   }
 
   static propertyNames = Object.getOwnPropertyNames(
@@ -125,11 +140,13 @@ export default class Charm {
 
   async save() {
     const charms = await Charm.load();
-    if (charms.find((c) => c.subject.value === this.slug)) {
-      console.warn("failed to create charm - slug already exists");
-      throw new Error("slug already exists");
-    }
-    return Charm.validate(this)
+    const store = N3Service.createStore(charms);
+    const slugs = store.getSubjects(null, null, null);
+    console.log(slugs);
+    return Charm.validate(
+      this,
+      slugs.map((s) => s.id)
+    )
       .then(async () =>
         fs.appendFile(path.resolve(process.env.DATA_FILE), await this.ttl)
       )

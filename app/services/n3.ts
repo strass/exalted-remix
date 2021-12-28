@@ -12,6 +12,7 @@ export class N3Service {
   get DataFactory() {
     return N3Service.DataFactory;
   }
+  static createStore = (quads: n3.Quad[]) => new n3.Store(quads);
 
   writer: n3.Writer;
   parser: n3.Parser;

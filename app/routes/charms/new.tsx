@@ -2,92 +2,63 @@ import {
   ActionFunction,
   Form,
   json,
+  LoaderFunction,
   redirect,
   useActionData,
+  useLoaderData,
   useTransition,
 } from "remix";
-import { ICharm } from "types/Charms";
 import { ValidationError } from "yup";
-import { TextInput } from "~/components/inputs";
+import type { SchemaObjectDescription } from "yup/lib/schema";
+import Fields, { accumulateErrorsByPath } from "~/components/Fields";
 import Charm from "../../factory/Charm";
+
+interface NewCharmErrorResponse {
+  message: string;
+  messages: string[];
+  errors: Record<string, string>;
+  values: Record<string, string>;
+}
+
+export const loader: LoaderFunction = async () => {
+  return Charm.validationSchema.describe();
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData.entries());
   try {
-    const charm = new Charm(values);
+    console.log(Charm.validationSchema.describe());
+    const charmData = Charm.validationSchema.cast(values);
+    const charm = new Charm(charmData);
     await charm.save();
     return redirect(`/charms/${charm.slug}`);
   } catch (error) {
     if (error instanceof ValidationError) {
-      function accumulateErrorsByPath(inner: ValidationError["inner"]) {
-        return inner.reduce((acc, err) => {
-          let newAcc = { ...acc };
-          if (err.inner) {
-            newAcc = { ...newAcc, ...accumulateErrorsByPath(err.inner) };
-          }
-          return {
-            ...newAcc,
-            [err.path as string]: err.message,
-          };
-        }, {} as Partial<Record<keyof ICharm, string>>);
-      }
       return json({
         message: error.message,
         messages: error.errors,
         errors: accumulateErrorsByPath(error.inner),
         values: error.value,
-      });
-    } else {
-      return json({ message: error.message });
+      } as NewCharmErrorResponse);
     }
+    throw new Error();
   }
 };
 
 export default function NewCharm() {
+  const data = useLoaderData<SchemaObjectDescription>();
   const transition = useTransition();
-  const actionData =
-    useActionData<{ error: string; values: Record<keyof ICharm, string> }>();
-  console.log(actionData);
+  const response = useActionData<NewCharmErrorResponse>();
+
   return (
     <Form method="post">
-      {actionData?.error && <p>{actionData.error}</p>}
+      {response?.message && <p>{response.message}</p>}
       <fieldset disabled={transition.state === "submitting"}>
-        <p>
-          <label>
-            Name:{" "}
-            <TextInput
-              name="name"
-              type="text"
-              defaultValue={actionData?.values?.name}
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Slug:{" "}
-            <TextInput
-              name="slug"
-              type="text"
-              defaultValue={actionData?.values?.slug}
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Description:
-            <br />
-            <textarea
-              name="description"
-              defaultValue={actionData?.values?.description}
-            />
-          </label>
-        </p>
-        <p>
-          <button type="submit">
-            {transition.state === "submitting" ? "Creating..." : "Create"}
-          </button>
-        </p>
+        <Fields fields={data.fields} response={response} />
+        <button type="submit">
+          {transition.state === "submitting" ? "Creating..." : "Create"}
+        </button>
       </fieldset>
     </Form>
   );
