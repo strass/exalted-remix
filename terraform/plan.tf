@@ -36,6 +36,14 @@ resource "aws_route53_record" "www" {
   records = [aws_instance.web.public_ip]
 }
 
+resource "aws_route53_record" "a" {
+  zone_id = "ZACWKJFZKGM17"
+  name    = "szoreny.essence.ooo"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.web.public_ip]
+}
+
 data "aws_vpc" "essence" {
   id = "vpc-0893c5cc56984e122"
 }

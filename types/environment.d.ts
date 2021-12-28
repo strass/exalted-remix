@@ -4,6 +4,7 @@ declare global {
       interface ProcessEnv {
         PORT?: string;
         DATA_FILE: string;
+        ONTOLOGY_URI: string;
       }
     }
   }

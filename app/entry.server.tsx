@@ -2,6 +2,8 @@ import { renderToString } from "react-dom/server";
 import { RemixServer } from "remix";
 import type { EntryContext } from "remix";
 
+// TODO: check for data file, create if necessary
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
