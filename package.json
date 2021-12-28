@@ -6,6 +6,7 @@
   "scripts": {
     "build": "DATA_FILE='data/data.ttl' ONTOLOGY_URI='http://www.szorny.essence.ooo/ontology#' remix build",
     "dev": "DATA_FILE='data/data.ttl' ONTOLOGY_URI='http://www.szorny.essence.ooo/ontology#' remix dev",
+    "generate-ts":"rdf-tools typescript -d app/routes/ontology/ontology.ttl > app/routes/ontology/__schema.ts",
     "postinstall": "remix setup node",
     "start": "remix-serve build"
   },
