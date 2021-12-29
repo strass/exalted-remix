@@ -1,5 +1,7 @@
 import * as n3 from "n3";
+import invariant from "tiny-invariant";
 
+invariant(process.env.ONTOLOGY_URI, 'Provide ONTOLOGY_URI env var')
 export class N3Service {
   static namespaces = {
     ex: process.env.ONTOLOGY_URI as string,
