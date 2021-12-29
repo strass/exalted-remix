@@ -3,7 +3,7 @@ import { Parser } from "n3";
 import path from "path";
 import { SchemaOf, object, string, number } from "yup";
 import * as n3 from "n3";
-import { N3Service } from "~/services/n3";
+import { N3Service } from "../services/n3.js";
 
 export interface ICharm {
   name: string;
@@ -96,10 +96,10 @@ export default class Charm {
   get ttl() {
     const w = new n3.Writer();
     const prefixes = {
-      ex: process.env.ONTOLOGY_URI,
+      ex: process.env.ONTOLOGY_URI as string,
       rdfs: NNM.label,
       dc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#",
-    };
+    } as const;
     w.addPrefixes(prefixes);
     const objectPredicatePairs = [
       [NNM.type, `ex:Charmlike`],
@@ -148,7 +148,7 @@ export default class Charm {
       slugs.map((s) => s.id)
     )
       .then(async () =>
-        fs.appendFile(path.resolve(process.env.DATA_FILE), await this.ttl)
+        fs.appendFile(path.resolve(process.env.DATA_FILE as string), await this.ttl)
       )
       .catch((ex) => {
         throw ex;

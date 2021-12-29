@@ -2,7 +2,7 @@ import * as n3 from "n3";
 
 export class N3Service {
   static namespaces = {
-    ex: process.env.ONTOLOGY_URI,
+    ex: process.env.ONTOLOGY_URI as string,
     /** URI for Charm and Charmlike Properties */
     exch: `${process.env.ONTOLOGY_URI}Charmlike.`,
     dc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#",

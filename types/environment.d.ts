@@ -5,6 +5,11 @@ declare global {
         PORT?: string;
         DATA_FILE: string;
         ONTOLOGY_URI: string;
+
+        // Discord Bot
+        DISCORD_TOKEN: string;
+        CLIENT_ID?: string;
+        GUILD_ID?: string;
       }
     }
   }
