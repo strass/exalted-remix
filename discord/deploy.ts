@@ -11,7 +11,7 @@ const commandFiles = fs
   .filter((file) => file.endsWith(".ts"));
 
 for (const file of commandFiles) {
-  const command = import(`./commands/${file}`);
+  const command = (await import(`./commands/${file}`)).default;
   commands.push(command.data.toJSON());
 }
 
