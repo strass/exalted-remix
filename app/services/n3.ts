@@ -1,7 +1,7 @@
 import * as n3 from "n3";
 import invariant from "tiny-invariant";
 
-invariant(process.env.ONTOLOGY_URI, 'Provide ONTOLOGY_URI env var')
+invariant(process.env.ONTOLOGY_URI, "Provide ONTOLOGY_URI env var");
 export class N3Service {
   static namespaces = {
     ex: process.env.ONTOLOGY_URI as string,
@@ -25,9 +25,10 @@ export class N3Service {
   }
 
   quadsToTurtle(quads: n3.Quad[]) {
+    const writer = new n3.Writer();
     return new Promise<string>((res, rej) => {
-      this.writer.addQuads(quads);
-      return this.writer.end((err, out) => {
+      writer.addQuads(quads);
+      return writer.end((err, out) => {
         if (err) rej(err);
         res(out);
       });
