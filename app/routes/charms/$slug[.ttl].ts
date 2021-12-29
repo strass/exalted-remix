@@ -9,6 +9,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const res = await N3Service.quadsToTurtle(charm);
     return new Response(res, { headers: { "Content-Type": "text/turtle" } });
   } catch (ex) {
+    console.error(ex)
     throw new Error("Internal Error");
   }
 };
