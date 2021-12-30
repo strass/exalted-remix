@@ -4,6 +4,7 @@ import path from "path";
 import { SchemaOf, object, string, number } from "yup";
 import * as n3 from "n3";
 import N3Service from "./n3.js";
+import { Embed } from "@discordjs/builders";
 
 export interface ICharm {
   name: string;
@@ -56,8 +57,20 @@ export default class Charm {
     return p;
   }
 
+  static from(input: string) {
+    const quads = N3Service.parser.parse(input);
+    // @ts-ignore
+    const data = Charm.hydrate(quads);
+    console.log(data);
+    return new Charm(data);
+  }
+
+  // TODO: finish predicates
   static validationSchema: SchemaOf<ICharm> = object({
-    name: string().label("Name").required(),
+    name: string()
+      .label("Name")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
     slug: string()
       .label("Slug")
       .required()
@@ -65,20 +78,54 @@ export default class Charm {
         return (context?.options?.context?.slugs ?? []).includes(value)
           ? false
           : true;
-      }),
-    type: string().label("Type").required(),
-    cost: string().label("Cost").required(),
+      })
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+    type: string()
+      .label("Type")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+    cost: string()
+      .label("Cost")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
     // keyword: string().label("").required(),
     keywords: string().label("Keywords").required(),
-    charmPrerequisites: string().label("Prerequisite Charms").required(),
-    abilityMin: number().label("Ability Minimum").integer().required(),
-    essenceMin: number().label("Essence Minimum").integer().required(),
+    charmPrerequisites: string()
+      .label("Prerequisite Charms")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+    abilityMin: number()
+      .label("Ability Minimum")
+      .integer()
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+    essenceMin: number()
+      .label("Essence Minimum")
+      .integer()
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charmlike }),
     duration: string().label("Duration").required(),
     description: string()
       .label("Description")
-      .meta({ type: "textarea" })
+      .meta({ type: "textarea", predicate: N3Service.iris.ex.Charmlike })
       .required(),
   });
+
+  static hydrate(quads: n3.Quad[]) {
+    const description = Charm.validationSchema.describe();
+    const fieldNames = Object.keys(description.fields);
+    const predicates = Object.fromEntries(
+      fieldNames.map((key) => [
+        // @ts-ignore
+        description.fields[key].meta?.predicate ?? key,
+        key,
+      ])
+    );
+    console.log(predicates);
+    return Object.fromEntries(
+      quads.map((quad) => [predicates[quad.predicate.value], quad.object.value])
+    );
+  }
 
   static async validate(values: ICharm, slugs: string[]) {
     return Charm.validationSchema.validate(values, {
@@ -101,6 +148,7 @@ export default class Charm {
       dc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#",
     } as const;
     w.addPrefixes(prefixes);
+    // TODO: make static, switch to IRIs
     const objectPredicatePairs = [
       [NNM.type, `ex:Charmlike`],
       ["rdfs:label", this.name],
@@ -136,6 +184,10 @@ export default class Charm {
         );
       });
     });
+  }
+
+  get discordEmbed() {
+    return new Embed().setTitle(this.name);
   }
 
   async save() {

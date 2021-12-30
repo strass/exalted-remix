@@ -1,21 +1,28 @@
 import * as n3 from "n3";
 import invariant from "tiny-invariant";
+import { prefixes, iris } from "../app/routes/ontology/__schema.js";
 
 invariant(process.env.ONTOLOGY_URI, "Provide ONTOLOGY_URI env var");
 class N3Service {
   static namespaces = {
-    ex: process.env.ONTOLOGY_URI as string,
+    ...prefixes,
     /** URI for Charm and Charmlike Properties */
     exch: `${process.env.ONTOLOGY_URI}Charmlike.`,
-    dc: "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#",
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
   } as const;
+  get namespaces() {
+    return N3Service.namespaces;
+  }
   static DataFactory = n3.DataFactory;
   get DataFactory() {
     return N3Service.DataFactory;
   }
+  get iris() {
+    return iris;
+  }
   static createStore = (quads: n3.Quad[]) => new n3.Store(quads);
-
+  get createStore() {
+    return N3Service.createStore;
+  }
   writer: n3.Writer;
   parser: n3.Parser;
   constructor() {

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import Charm from "../../app/services/Charm.js";
-import n3, { N3Service } from "../../services/n3.js";
+import Charm from "../../services/Charm.js";
+import N3Service from "../../services/n3.js";
 import fetch from "node-fetch";
 
 let store = N3Service.createStore([]);
@@ -18,14 +18,13 @@ export default {
     ),
   async execute(interaction: CommandInteraction) {
     try {
-      const charms = await Charm.load();
-      store.addQuads(charms);
+      // const charms = await Charm.load();
+      // store.addQuads(charms);
       const uri = interaction.options.getString("resource");
-      console.log(uri);
       const r = await fetch(uri?.endsWith(".ttl") ? uri : `${uri}.ttl`);
-
+      const charm = Charm.from(await r.text());
       // const lookup = store.getQuads(uri, null, null, null);
-      return await interaction.reply(await r.text());
+      return await interaction.reply({ embeds: [charm.discordEmbed] });
     } catch (ex) {
       console.error(ex);
     }
