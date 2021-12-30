@@ -158,7 +158,7 @@ export default class Charm {
     new Charm(undefined as any)
   );
   get subject() {
-    invariant(this.slug || this.uri);
+    // invariant(this.slug || this.uri);
     return new n3.NamedNode((this.slug as string) ?? (this.uri as string));
   }
   get ttl() {
