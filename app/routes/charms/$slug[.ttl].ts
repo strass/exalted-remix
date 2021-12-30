@@ -8,6 +8,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (charmQuads.length === 0) {
     charmQuads = charms.getQuads(params.slug as string, null, null, null);
   }
+  if (charmQuads.length === 0) throw new Error("Not Found");
   try {
     const res = await N3Service.quadsToTurtle(charmQuads);
     return new Response(res, { headers: { "Content-Type": "text/turtle" } });
