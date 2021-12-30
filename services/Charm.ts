@@ -5,10 +5,12 @@ import { SchemaOf, object, string, number } from "yup";
 import * as n3 from "n3";
 import N3Service from "./n3.js";
 import { Embed } from "@discordjs/builders";
+import invariant from "tiny-invariant";
 
 export interface ICharm {
   name: string;
-  slug: string;
+  slug?: string;
+  uri?: string;
   description: string;
   type: string;
   cost: string;
@@ -29,6 +31,7 @@ const NNM = {
 export default class Charm {
   name: ICharm["name"];
   slug: ICharm["slug"];
+  uri: ICharm["uri"];
   description: ICharm["description"];
   cost: ICharm["cost"];
   type: ICharm["type"] = "Charmlike";
@@ -41,6 +44,7 @@ export default class Charm {
   constructor(charm: ICharm) {
     this.name = charm?.name;
     this.slug = charm?.slug;
+    this.uri = charm?.uri;
     this.description = charm?.description;
     this.type = charm?.type;
     this.cost = charm?.cost;
@@ -70,7 +74,7 @@ export default class Charm {
     name: string()
       .label("Name")
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      .meta({ predicate: N3Service.iris.ex.Charm_name }),
     slug: string()
       .label("Slug")
       .required()
@@ -79,35 +83,49 @@ export default class Charm {
           ? false
           : true;
       })
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      // TODO: what should this be?
+      .meta({ predicate: N3Service.iris.ex.Charm_uri }),
+    uri: string()
+      .label("URI")
+
+      .meta({ predicate: N3Service.iris.ex.Charm_uri }),
     type: string()
       .label("Type")
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      .meta({ predicate: N3Service.iris.ex.Charm_type }),
     cost: string()
       .label("Cost")
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      .meta({ predicate: N3Service.iris.ex.Charm_cost }),
     // keyword: string().label("").required(),
-    keywords: string().label("Keywords").required(),
+    keywords: string()
+      .label("Keywords")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charm_keyword }),
     charmPrerequisites: string()
       .label("Prerequisite Charms")
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      .meta({ predicate: N3Service.iris.ex.Charm_charmPrerequisite }),
     abilityMin: number()
       .label("Ability Minimum")
       .integer()
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
+      .meta({ predicate: N3Service.iris.ex.Charm_statMinimum }),
     essenceMin: number()
       .label("Essence Minimum")
       .integer()
       .required()
-      .meta({ predicate: N3Service.iris.ex.Charmlike }),
-    duration: string().label("Duration").required(),
+      .meta({ predicate: N3Service.iris.ex.Charm_essenceMinimum }),
+    duration: string()
+      .label("Duration")
+      .required()
+      .meta({ predicate: N3Service.iris.ex.Charm_duration }),
     description: string()
       .label("Description")
-      .meta({ type: "textarea", predicate: N3Service.iris.ex.Charmlike })
+      .meta({
+        type: "textarea",
+        predicate: N3Service.iris.ex.Charm_description,
+      })
       .required(),
   });
 
@@ -121,9 +139,11 @@ export default class Charm {
         key,
       ])
     );
-    console.log(predicates);
     return Object.fromEntries(
-      quads.map((quad) => [predicates[quad.predicate.value], quad.object.value])
+      quads.map((quad, idx) => {
+        console.log(idx, quad.predicate.id, quad.predicate.value, predicates[quad.predicate.value], quad.object.value )
+        return [predicates[quad.predicate.value], quad.object.value];
+      })
     );
   }
 
@@ -138,7 +158,8 @@ export default class Charm {
     new Charm(undefined as any)
   );
   get subject() {
-    return new n3.NamedNode(this.slug);
+    invariant(this.slug || this.uri);
+    return new n3.NamedNode((this.slug as string) ?? (this.uri as string));
   }
   get ttl() {
     const w = new n3.Writer();
@@ -194,7 +215,6 @@ export default class Charm {
     const charms = await Charm.load();
     const store = N3Service.createStore(charms);
     const slugs = store.getSubjects(null, null, null);
-    console.log(slugs);
     return Charm.validate(
       this,
       slugs.map((s) => s.id)

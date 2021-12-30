@@ -22,7 +22,10 @@ export default {
       // store.addQuads(charms);
       const uri = interaction.options.getString("resource");
       const r = await fetch(uri?.endsWith(".ttl") ? uri : `${uri}.ttl`);
-      const charm = Charm.from(await r.text());
+      const body = await r.text()
+      console.log(body)
+      const charm = Charm.from(body);
+      console.log(charm)
       // const lookup = store.getQuads(uri, null, null, null);
       return await interaction.reply({ embeds: [charm.discordEmbed] });
     } catch (ex) {

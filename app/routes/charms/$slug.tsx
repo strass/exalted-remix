@@ -11,13 +11,15 @@ type LoaderResponse = Omit<
   "slug"
 >;
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   invariant(params.slug, "No charm id");
   const charms = new Store(await Charm.load());
-  const charmQuads = charms.getQuads(params.slug, null, null, null);
+  let charmQuads = charms.getQuads(request.url, null, null, null);
+  if (charmQuads.length === 0) {
+    charmQuads = charms.getQuads(params.slug, null, null, null);
+  }
   // think about using validationschema to cast?
   if (charmQuads.length === 0) throw new Error("Not Found");
-  console.log(charmQuads);
   const response = {
     name: charms.getObjects(
       params.slug,

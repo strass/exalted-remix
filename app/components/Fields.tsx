@@ -23,7 +23,6 @@ const Fields: FunctionComponent<{
   <>
     {Object.keys(fields).map((path) => {
       const { type, label, tests, meta = {} } = fields[path];
-      console.log(fields[path]);
       const required = tests.find((t) => t.name === "required") ? true : false;
       return (
         <p key={path}>

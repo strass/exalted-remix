@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 export module prefixes {
     export const ex = "http://www.szoreny.essence.ooo/ontology#";
@@ -9,54 +10,42 @@ export module prefixes {
 };
 
 export module iris {
-    export module undefined {
-        export const ontology = "http://www.szoreny.essence.ooo/ontology";
+    export module ex {
+        export const _ = "http://www.szoreny.essence.ooo/ontology#";
+        export const Charm_aggravatedHealthLevelCost = "http://www.szoreny.essence.ooo/ontology#Charm.aggravatedHealthLevelCost";
+        export const Charm_healthLevelCost = "http://www.szoreny.essence.ooo/ontology#Charm.healthLevelCost";
+        export const Charm_animaCost = "http://www.szoreny.essence.ooo/ontology#Charm.animaCost";
+        export const Charm_cost = "http://www.szoreny.essence.ooo/ontology#Charm.cost";
+        export const Charm_bashingHealthLevelCost = "http://www.szoreny.essence.ooo/ontology#Charm.bashingHealthLevelCost";
+        export const Charm_charmPrerequisite = "http://www.szoreny.essence.ooo/ontology#Charm.charmPrerequisite";
+        export const Charm_description = "http://www.szoreny.essence.ooo/ontology#Charm.description";
+        export const Charm_duration = "http://www.szoreny.essence.ooo/ontology#Charm.duration";
+        export const Charm_essenceMinimum = "http://www.szoreny.essence.ooo/ontology#Charm.essenceMinimum";
+        export const Charm_keyword = "http://www.szoreny.essence.ooo/ontology#Charm.keyword";
+        export const Charm_lethalHealthLevelCost = "http://www.szoreny.essence.ooo/ontology#Charm.lethalHealthLevelCost";
+        export const Charm_moteCost = "http://www.szoreny.essence.ooo/ontology#Charm.moteCost";
+        export const Charm_name = "http://www.szoreny.essence.ooo/ontology#Charm.name";
+        export const Charm_statMinimum = "http://www.szoreny.essence.ooo/ontology#Charm.statMinimum";
+        export const Charm_statMinimumName = "http://www.szoreny.essence.ooo/ontology#Charm.statMinimumName";
+        export const Charm_statMinimumValue = "http://www.szoreny.essence.ooo/ontology#Charm.statMinimumValue";
+        export const Charm_type = "http://www.szoreny.essence.ooo/ontology#Charm.type";
+        export const Charm_uri = "http://www.szoreny.essence.ooo/ontology#Charm.uri";
+        export const Charm_willpowerCost = "http://www.szoreny.essence.ooo/ontology#Charm.willpowerCost";
+        export const Charm = "http://www.szoreny.essence.ooo/ontology#Charm";
+        export const Charmset = "http://www.szoreny.essence.ooo/ontology#Charmset";
     };
     export module rdf {
         export const type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
     };
     export module owl {
         export const Ontology = "http://www.w3.org/2002/07/owl#Ontology";
-        export const ObjectProperty = "http://www.w3.org/2002/07/owl#ObjectProperty";
-        export const inverseOf = "http://www.w3.org/2002/07/owl#inverseOf";
         export const DatatypeProperty = "http://www.w3.org/2002/07/owl#DatatypeProperty";
         export const topDataProperty = "http://www.w3.org/2002/07/owl#topDataProperty";
         export const Class = "http://www.w3.org/2002/07/owl#Class";
         export const disjointWith = "http://www.w3.org/2002/07/owl#disjointWith";
     };
-    export module ex {
-        export const charmProperty = "http://www.szoreny.essence.ooo/ontology#charmProperty";
-        export const hasPrerequisite = "http://www.szoreny.essence.ooo/ontology#hasPrerequisite";
-        export const isPrerequisite = "http://www.szoreny.essence.ooo/ontology#isPrerequisite";
-        export const Charmlike = "http://www.szoreny.essence.ooo/ontology#Charmlike";
-        export const isInCharmset = "http://www.szoreny.essence.ooo/ontology#isInCharmset";
-        export const Charmset = "http://www.szoreny.essence.ooo/ontology#Charmset";
-        export const CharmlikeProperty = "http://www.szoreny.essence.ooo/ontology#CharmlikeProperty";
-        export const abilityRequirement = "http://www.szoreny.essence.ooo/ontology#abilityRequirement";
-        export const aggravated_health_level_cost = "http://www.szoreny.essence.ooo/ontology#aggravated_health_level_cost";
-        export const health_level_cost = "http://www.szoreny.essence.ooo/ontology#health_level_cost";
-        export const anima_cost = "http://www.szoreny.essence.ooo/ontology#anima_cost";
-        export const cost = "http://www.szoreny.essence.ooo/ontology#cost";
-        export const bashing_health_level_cost = "http://www.szoreny.essence.ooo/ontology#bashing_health_level_cost";
-        export const essenceRequirement = "http://www.szoreny.essence.ooo/ontology#essenceRequirement";
-        export const lethal_health_level_cost = "http://www.szoreny.essence.ooo/ontology#lethal_health_level_cost";
-        export const mote_cost = "http://www.szoreny.essence.ooo/ontology#mote_cost";
-        export const willpower_cost = "http://www.szoreny.essence.ooo/ontology#willpower_cost";
-        export const E3Charm = "http://www.szoreny.essence.ooo/ontology#E3Charm";
-        export const E3Charmlike = "http://www.szoreny.essence.ooo/ontology#E3Charmlike";
-        export const E3Evocation = "http://www.szoreny.essence.ooo/ontology#E3Evocation";
-        export const EssenceCharm = "http://www.szoreny.essence.ooo/ontology#EssenceCharm";
-        export const EssenceCharmlike = "http://www.szoreny.essence.ooo/ontology#EssenceCharmlike";
-        export const EssenceEvocation = "http://www.szoreny.essence.ooo/ontology#EssenceEvocation";
-    };
     export module rdfs {
         export const subPropertyOf = "http://www.w3.org/2000/01/rdf-schema#subPropertyOf";
-        export const range = "http://www.w3.org/2000/01/rdf-schema#range";
-        export const subClassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
-    };
-    export module xsd {
-        export const positiveInteger = "http://www.w3.org/2001/XMLSchema#positiveInteger";
-        export const string = "http://www.w3.org/2001/XMLSchema#string";
     };
 };
 
@@ -70,35 +59,11 @@ export module RDF {
     };
 };
 
+export type Charm = RDF.Resource & {
+
+};
+
 export type Charmset = RDF.Resource & {
-
-};
-
-export type E3Charm = E3Charmlike & {
-
-};
-
-export type E3Charmlike = Charmlike & {
-
-};
-
-export type E3Evocation = E3Charmlike & {
-
-};
-
-export type EssenceCharm = EssenceCharmlike & {
-
-};
-
-export type EssenceCharmlike = Charmlike & {
-
-};
-
-export type EssenceEvocation = EssenceCharmlike & {
-
-};
-
-export type Charmlike = RDF.Resource & {
 
 };
 
@@ -117,59 +82,17 @@ export function isInteger(obj: any): obj is integer {
 export function isDecimal(obj: any): obj is decimal {
     return typeof obj === "number";
 }
+export function isCharm(obj: any): obj is Charm {
+    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
+    return (obj != null) &&
+        ("type" in obj && obj.type instanceof Array) &&
+        ("Charm" in types);
+}
 export function isCharmset(obj: any): obj is Charmset {
     const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
     return (obj != null) &&
         ("type" in obj && obj.type instanceof Array) &&
         ("Charmset" in types);
-}
-export function isE3Charm(obj: any): obj is E3Charm {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("E3Charm" in types) &&
-        (isE3Charmlike(obj));
-}
-export function isE3Charmlike(obj: any): obj is E3Charmlike {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("E3Charmlike" in types || "E3Charm" in types || "E3Evocation" in types) &&
-        (isCharmlike(obj));
-}
-export function isE3Evocation(obj: any): obj is E3Evocation {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("E3Evocation" in types) &&
-        (isE3Charmlike(obj));
-}
-export function isEssenceCharm(obj: any): obj is EssenceCharm {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("EssenceCharm" in types) &&
-        (isEssenceCharmlike(obj));
-}
-export function isEssenceCharmlike(obj: any): obj is EssenceCharmlike {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("EssenceCharmlike" in types || "EssenceCharm" in types || "EssenceEvocation" in types) &&
-        (isCharmlike(obj));
-}
-export function isEssenceEvocation(obj: any): obj is EssenceEvocation {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("EssenceEvocation" in types) &&
-        (isEssenceCharmlike(obj));
-}
-export function isCharmlike(obj: any): obj is Charmlike {
-    const types = (obj.type || []).reduce((memo, type) => { memo[type] = true; return memo; }, {});
-    return (obj != null) &&
-        ("type" in obj && obj.type instanceof Array) &&
-        ("Charmlike" in types || "E3Charmlike" in types || "EssenceCharmlike" in types);
 }
 export default {
     prefixes,

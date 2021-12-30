@@ -28,7 +28,6 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData.entries());
   try {
-    console.log(Charm.validationSchema.describe());
     const charmData = Charm.validationSchema.cast(values);
     const charm = new Charm(charmData);
     await charm.save();
