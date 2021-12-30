@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { ICharm } from "~/factory/Charm";
+import { ICharm } from "../../services/Charm";
 
 const CharmDisplay: FunctionComponent<{
   charm: Omit<ICharm, "slug">;

@@ -11,7 +11,7 @@ import {
 import { ValidationError } from "yup";
 import type { SchemaObjectDescription } from "yup/lib/schema";
 import Fields, { accumulateErrorsByPath } from "~/components/Fields";
-import Charm from "../../factory/Charm";
+import Charm from "../../../services/Charm";
 
 interface NewCharmErrorResponse {
   message: string;

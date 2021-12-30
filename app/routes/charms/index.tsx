@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "remix";
-import Charm from "~/factory/Charm";
+import Charm from "../../../services/Charm";
 
 export const loader = async () => {
   const charms = await Charm.load();

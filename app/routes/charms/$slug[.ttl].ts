@@ -1,6 +1,6 @@
 import { LoaderFunction } from "remix";
-import Charm from "~/factory/Charm";
-import N3Service from "~/services/n3";
+import Charm from "../../../services/Charm";
+import N3Service from "../../../services/n3";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const charms = await Charm.load();

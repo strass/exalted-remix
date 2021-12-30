@@ -1,10 +1,10 @@
 import { json, Link, LoaderFunction, useLoaderData, useLocation } from "remix";
-import Charm from "~/factory/Charm";
+import Charm from "../../../services/Charm";
 import { Store, DataFactory } from "n3";
 import invariant from "tiny-invariant";
 import CharmDisplay from "~/components/CharmDisplay";
 import { ComponentProps, FunctionComponent } from "react";
-import { N3Service } from "~/services/n3";
+import N3Service from "../../../services/n3";
 
 type LoaderResponse = Omit<
   ComponentProps<typeof CharmDisplay>["charm"],
@@ -64,8 +64,8 @@ export const loader: LoaderFunction = async ({ params }) => {
       `${N3Service.namespaces.dc}description`,
       null
     )[0]?.value,
-  }
-  const castResponse = Charm.validationSchema.cast(response)
+  };
+  const castResponse = Charm.validationSchema.cast(response);
   return json(castResponse as LoaderResponse);
 };
 

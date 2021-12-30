@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import Charm from "../../app/factory/Charm.js";
-import n3, { N3Service } from "../../app/services/n3.js";
+import Charm from "../../app/services/Charm.js";
+import n3, { N3Service } from "../../services/n3.js";
 import fetch from "node-fetch";
 
 let store = N3Service.createStore([]);

@@ -3,7 +3,6 @@
   "name": "remix-app-template",
   "description": "",
   "license": "",
-  "type": "module",
   "scripts": {
     "build": "DATA_FILE='data/data.ttl' ONTOLOGY_URI='http://www.szorny.essence.ooo/ontology#' remix build",
     "dev": "DATA_FILE='data/data.ttl' ONTOLOGY_URI='http://www.szorny.essence.ooo/ontology#' remix dev",
