@@ -4,13 +4,8 @@ import { prefixes, iris } from "../app/routes/ontology/__schema.js";
 
 invariant(process.env.ONTOLOGY_URI, "Provide ONTOLOGY_URI env var");
 class N3Service {
-  static namespaces = {
-    ...prefixes,
-    /** URI for Charm and Charmlike Properties */
-    exch: `${process.env.ONTOLOGY_URI}Charmlike.`,
-  } as const;
   get namespaces() {
-    return N3Service.namespaces;
+    return prefixes;
   }
   static DataFactory = n3.DataFactory;
   get DataFactory() {
@@ -28,7 +23,7 @@ class N3Service {
   constructor() {
     this.writer = new n3.Writer();
     this.parser = new n3.Parser();
-    this.writer.addPrefixes(N3Service.namespaces);
+    this.writer.addPrefixes(prefixes);
   }
 
   quadsToTurtle(quads: n3.Quad[]) {
