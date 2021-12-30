@@ -71,6 +71,11 @@ export default class Charm {
 
   // TODO: finish predicates
   static validationSchema: SchemaOf<ICharm> = object({
+    rdfsType: string()
+      .label("RDFS Type")
+      .default("Charm")
+      .required()
+      .meta({ predicate: N3Service.iris.rdf.type }),
     name: string()
       .label("Name")
       .required()
@@ -139,10 +144,11 @@ export default class Charm {
         key,
       ])
     );
+    console.log(predicates);
     return Object.fromEntries(
       quads.map((quad, idx) => {
-        console.log(idx, quad.predicate.id, quad.predicate.value, predicates[quad.predicate.value], quad.object.value )
-        return [predicates[quad.predicate.value], quad.object.value];
+        console.log(quad.predicate.id, predicates[quad.predicate.id]);
+        return [predicates[quad.predicate.id], quad.object.value];
       })
     );
   }
