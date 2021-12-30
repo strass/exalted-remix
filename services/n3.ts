@@ -2,7 +2,6 @@ import * as n3 from "n3";
 import invariant from "tiny-invariant";
 import { prefixes, iris } from "../app/routes/ontology/__schema.js";
 
-invariant(process.env.ONTOLOGY_URI, "Provide ONTOLOGY_URI env var");
 class N3Service {
   get namespaces() {
     return prefixes;
